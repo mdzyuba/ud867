@@ -36,6 +36,15 @@
         android:layout_below="@+id/btnTellJoke_androidLib"
         android:text="@string/button_tell_joke_web_api" />
 
+    <ProgressBar
+        android:id="@+id/progress_circular"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:visibility="gone"
+        android:layout_below="@+id/btnTellJoke_webApi"/>
+
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="wrap_content"

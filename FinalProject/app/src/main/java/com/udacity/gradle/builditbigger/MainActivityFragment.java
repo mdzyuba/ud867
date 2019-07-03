@@ -1,35 +1,27 @@
 package com.udacity.gradle.builditbigger;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.mdzyuba.jokesandroidlib.JokeTellingActivity;
 import com.mdzyuba.jokeslib.Jokes;
-import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
+import com.udacity.gradle.builditbigger.webapi.JokesWebApiAsyncTask;
+import com.udacity.gradle.builditbigger.webapi.OnJokeReceived;
 
-import java.io.IOException;
+import androidx.fragment.app.Fragment;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
-    public static final String WEB_API_URL = "http://jokes-web-service.appspot.com/_ah/api/";
-    private Button btnJokeFromJavaLib;
-    private Button btnJokeFromAndroidLib;
-    private Button btnJokeFromWebApi;
 
     public MainActivityFragment() {
     }
@@ -62,7 +54,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void initButtonWithAndroidLibJokes(View root) {
-        btnJokeFromAndroidLib = root.findViewById(R.id.btnTellJoke_androidLib);
+        Button btnJokeFromAndroidLib = root.findViewById(R.id.btnTellJoke_androidLib);
         btnJokeFromAndroidLib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +65,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void initButtonWithLibJokes(View root) {
-        btnJokeFromJavaLib = root.findViewById(R.id.btnTellJoke_javaLib);
+        Button btnJokeFromJavaLib = root.findViewById(R.id.btnTellJoke_javaLib);
         btnJokeFromJavaLib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,49 +76,22 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void initButtonWithWebApiJokes(View root) {
-        btnJokeFromJavaLib = root.findViewById(R.id.btnTellJoke_webApi);
-        btnJokeFromJavaLib.setOnClickListener(new View.OnClickListener() {
+        Button btnJokeFromWebApi = root.findViewById(R.id.btnTellJoke_webApi);
+        final ProgressBar progressBar = root.findViewById(R.id.progress_circular);
+        btnJokeFromWebApi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JokesWebApiAsyncTask task = new JokesWebApiAsyncTask();
+                progressBar.setVisibility(View.VISIBLE);
+                JokesWebApiAsyncTask task = new JokesWebApiAsyncTask(new OnJokeReceived() {
+                    @Override
+                    public void tellJoke(String joke) {
+                        progressBar.setVisibility(View.GONE);
+                        JokeTellingActivity.startActivity(getActivity(), joke);
+                    }
+                });
                 task.execute();
             }
         });
-    }
-
-    private class JokesWebApiAsyncTask extends AsyncTask<Void, Void, String> {
-        private MyApi api = null;
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            try {
-                MyApi api = buildWebApi();
-                return api.sayHi("Nick").execute().getData();
-            } catch (IOException e) {
-                return e.getMessage();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String joke) {
-            JokeTellingActivity.startActivity(getActivity(), joke);
-        }
-
-        private MyApi buildWebApi() {
-            MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
-                                                      new AndroidJsonFactory(), null)
-                    .setRootUrl(WEB_API_URL)
-                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                        @Override
-                        public void initialize(
-                                AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws
-                                                                                            IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
-                    });
-            MyApi api = builder.build();
-            return api;
-        }
     }
 
 }

@@ -27,4 +27,14 @@ public class MyEndpoint {
         return response;
     }
 
+    @ApiMethod(name = "tellJoke")
+    public MyBean tellJoke() {
+        String joke = "Teacher: John, why is your computer says it is full?\n" +
+                      "John: It had too many bytes.";
+        MyBean response = new MyBean();
+        response.setData(joke);
+
+        return response;
+    }
+
 }

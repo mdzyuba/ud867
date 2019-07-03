@@ -23,6 +23,8 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField('String', 'WEB_API_URL', "$app_engine_url")
     }
 
     buildTypes {
@@ -42,6 +44,12 @@ android {
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -56,11 +64,19 @@ dependencies {
 
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
+    implementation project(path: ':jokes_android_lib')
+    implementation project(path: ':jokes_java_lib')
+
+    testImplementation 'junit:junit:4.12'
+
+    androidTestImplementation 'com.google.android.gms:play-services-ads:18.0.0'
+    androidTestImplementation 'com.google.api-client:google-api-client:1.25.0'
+    androidTestImplementation 'com.google.http-client:google-http-client-android:1.23.0'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    androidTestImplementation 'androidx.test:core:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
 
-    testImplementation 'junit:junit:4.12'
-    implementation project(path: ':jokes_android_lib')
-    implementation project(path: ':jokes_java_lib')
 }
