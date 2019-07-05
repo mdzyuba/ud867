@@ -34,6 +34,21 @@ android {
         }
     }
 
+    flavorDimensions "version"
+
+    productFlavors {
+        free {
+            dimension "version"
+            applicationIdSuffix ".free"
+            versionNameSuffix "-free"
+        }
+        paid {
+            dimension "version"
+            applicationIdSuffix ".paid"
+            versionNameSuffix "-paid"
+        }
+    }
+
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
@@ -57,7 +72,7 @@ dependencies {
     endpointsServer project(path: ':backend', configuration: 'endpoints')
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'com.google.android.gms:play-services-ads:18.0.0'
+    freeImplementation 'com.google.android.gms:play-services-ads:18.0.0'
 
     implementation 'com.google.api-client:google-api-client:1.25.0'
     implementation 'com.google.http-client:google-http-client-android:1.23.0'
@@ -69,7 +84,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 
-    androidTestImplementation 'com.google.android.gms:play-services-ads:18.0.0'
+    androidTestFreeImplementation 'com.google.android.gms:play-services-ads:18.0.0'
     androidTestImplementation 'com.google.api-client:google-api-client:1.25.0'
     androidTestImplementation 'com.google.http-client:google-http-client-android:1.23.0'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
