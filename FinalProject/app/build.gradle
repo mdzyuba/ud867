@@ -73,6 +73,7 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     freeImplementation 'com.google.android.gms:play-services-ads:18.0.0'
+    freeImplementation 'androidx.test.espresso:espresso-idling-resource:3.2.0'
 
     implementation 'com.google.api-client:google-api-client:1.25.0'
     implementation 'com.google.http-client:google-http-client-android:1.23.0'
@@ -93,5 +94,6 @@ dependencies {
     androidTestImplementation 'androidx.test:core:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
 
 }

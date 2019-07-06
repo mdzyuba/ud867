@@ -31,9 +31,9 @@ public abstract class MainActivityBaseFragment extends Fragment {
         return root;
     }
 
-    private void initButtonWithAndroidLibJokes(View root) {
-        Button btnJokeFromAndroidLib = root.findViewById(R.id.btnTellJoke_androidLib);
-        btnJokeFromAndroidLib.setOnClickListener(new View.OnClickListener() {
+    private void initButtonWithLibJokes(View root) {
+        Button btnJokeFromJavaLib = root.findViewById(R.id.btnTellJoke_javaLib);
+        btnJokeFromJavaLib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String joke = new Jokes().tell();
@@ -42,13 +42,13 @@ public abstract class MainActivityBaseFragment extends Fragment {
         });
     }
 
-    private void initButtonWithLibJokes(View root) {
-        Button btnJokeFromJavaLib = root.findViewById(R.id.btnTellJoke_javaLib);
-        btnJokeFromJavaLib.setOnClickListener(new View.OnClickListener() {
+    private void initButtonWithAndroidLibJokes(View root) {
+        Button btnJokeFromAndroidLib = root.findViewById(R.id.btnTellJoke_androidLib);
+        btnJokeFromAndroidLib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String joke = new Jokes().tell();
-                Toast.makeText(getContext(), joke, Toast.LENGTH_SHORT).show();
+                showJokeTellingActivity(joke);
             }
         });
     }
