@@ -29,3 +29,28 @@ ext {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task allLocalConnectedTests {
+    description = "Run local GCE connected Android tests"
+    group = "verification"
+    dependsOn = [":app:connectedPaidLocalGCEAndroidTest",
+                 ":app:connectedFreeLocalGCEAndroidTest"]
+}
+
+task masterTest {
+    description = "Run GCE local development server and Android tests"
+    group = "verification"
+
+    doFirst {
+        println "Please make sure an Android emulator is running before starting this task"
+    }
+
+    dependsOn = ["clean",
+                 ":backend:appengineStart",
+                 ":allLocalConnectedTests",
+                 ":backend:appengineStop"]
+
+    tasks.findByPath(':backend:appengineStart').mustRunAfter 'clean'
+    tasks.findByPath(':allLocalConnectedTests').mustRunAfter ':backend:appengineStart'
+    tasks.findByPath(':backend:appengineStop').mustRunAfter ':allLocalConnectedTests'
+}

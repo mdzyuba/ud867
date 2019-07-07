@@ -1,6 +1,7 @@
 package com.udacity.gradle.builditbigger.webapi;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -45,6 +46,7 @@ public class JokesWebApiAsyncTask extends AsyncTask<Void, Void, String> {
                 abstractGoogleClientRequest.setDisableGZipContent(true);
             }
         };
+        Log.d("JokesWebApiAsyncTask", "WEB_API_URL: " + BuildConfig.WEB_API_URL);
         MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                                                   new AndroidJsonFactory(), null)
                         .setRootUrl(BuildConfig.WEB_API_URL)

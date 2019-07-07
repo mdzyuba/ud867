@@ -21,9 +21,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         buildConfigField('String', 'WEB_API_URL', "$app_engine_url")
     }
 
@@ -31,6 +29,27 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        // This is a build type to be used while running connected tests
+        // with a local GCE app engine dev server.
+        localGCE {
+            minifyEnabled false
+            initWith debug
+
+            // Note: This option can be used if the host security settings allow
+            // access to the local app engine:
+            // def host=InetAddress.localHost.canonicalHostName
+            //
+            // In my case, my Mac has security restrictions that do not allow
+            // an access to the http server running on the local host from
+            // other machines on the network. So, in this case, I am using
+            // an Android emulator running on the same host as the local GCE
+            // app engine dev server. The Android emulator has a "magic" ip
+            // address 10.0.2.2 that points to the host.
+            def host='10.0.2.2'
+            def local_app_engine_url="http://${host}:8080/_ah/api/"
+            buildConfigField('String', 'WEB_API_URL', "\"$local_app_engine_url\"")
+            matchingFallbacks = ['debug']
         }
     }
 
@@ -65,6 +84,8 @@ android {
             includeAndroidResources = true
         }
     }
+
+    testBuildType "localGCE"
 }
 
 dependencies {

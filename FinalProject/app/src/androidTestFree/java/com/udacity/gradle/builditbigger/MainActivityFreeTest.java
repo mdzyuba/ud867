@@ -1,15 +1,10 @@
 package com.udacity.gradle.builditbigger;
 
-import android.util.Log;
-import android.view.View;
-
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.test.espresso.FailureHandler;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -67,14 +62,14 @@ public class MainActivityFreeTest {
     }
 
     protected void closeAdIfDisplayed() throws Exception {
-        ViewInteraction imageButton = getInterstitialAdCloseButton();
-        imageButton.withFailureHandler(new FailureHandler() {
-            @Override
-            public void handle(Throwable error, Matcher<View> viewMatcher) {
-                Log.d("test", error.getMessage());
-            }
-        }).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
-        onView(isRoot()).perform(pressBack());
+        try {
+            // If the ad is displayed, press the back button.
+            ViewInteraction imageButton = getInterstitialAdCloseButton();
+            imageButton.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+            onView(isRoot()).perform(pressBack());
+        } catch (Exception e) {
+            // Ignore. The ad has not been displayed.
+        }
     }
 
     private ViewInteraction getInterstitialAdCloseButton() {
