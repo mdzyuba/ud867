@@ -25,7 +25,7 @@ public class MainActivityTest {
     @Test
     public void testClickOnTellJokeFromJavaLibButton_showsJoke() {
         onView(withId(R.id.btnTellJoke_javaLib)).perform(click());
-        onView(withId(R.id.tvJokeText)).check(matches(withText(containsString("cake"))));
+        onView(withId(R.id.tvJokeText)).check(matches(withText(containsString("Dad"))));
     }
 
     @Test

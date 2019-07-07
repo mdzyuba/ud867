@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class JokesWebApiAsyncTaskTest {
 
-    public static final int TIMEOUT = 20;
+    private static final int TIMEOUT = 20;
 
     @Test
     public void getJoke() throws Exception {

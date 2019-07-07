@@ -1,6 +1,8 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,21 +12,29 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
+import androidx.annotation.NonNull;
+
 
 /**
  * The Free version fragment with ads. 
  */
 public class MainActivityFragment extends MainActivityBaseFragment {
 
+    private static final String TAG = "MainActivityFragment";
     private InterstitialAd interstitialAd;
 
     public MainActivityFragment() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = super.onCreateView(inflater, container, savedInstanceState);
+
+        if (root == null) {
+            Log.e(TAG, "Unable to create the view.");
+            return null;
+        }
 
         initAds(root);
 
@@ -34,7 +44,7 @@ public class MainActivityFragment extends MainActivityBaseFragment {
     }
 
     private void initAds(View root) {
-        AdView mAdView = (AdView) root.findViewById(R.id.adView);
+        AdView mAdView = root.findViewById(R.id.adView);
         // Create an ad request. Check logcat output for the hashed device ID to
         // get test ads on a physical device. e.g.
         // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
@@ -45,8 +55,13 @@ public class MainActivityFragment extends MainActivityBaseFragment {
     }
 
     private void initInterstitialAd() {
-        interstitialAd = new InterstitialAd(getContext());
-        interstitialAd.setAdUnitId(getContext().getString(R.string.interstitial_ad_unit_id));
+        Context context = getContext();
+        if (context == null) {
+            Log.e(TAG, "Unable to create the the ad. The context is null.");
+            return;
+        }
+        interstitialAd = new InterstitialAd(context);
+        interstitialAd.setAdUnitId(context.getString(R.string.interstitial_ad_unit_id));
         AdRequest adRequest = new AdRequest.Builder().build();
         interstitialAd.loadAd(adRequest);
     }

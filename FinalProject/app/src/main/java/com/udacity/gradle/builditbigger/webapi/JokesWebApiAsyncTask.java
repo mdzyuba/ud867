@@ -13,7 +13,7 @@ import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
 import java.io.IOException;
 
 public class JokesWebApiAsyncTask extends AsyncTask<Void, Void, String> {
-    private OnJokeReceived jokeReceivedCallback;
+    private final OnJokeReceived jokeReceivedCallback;
 
     public JokesWebApiAsyncTask(OnJokeReceived jokeReceivedCallback) {
         this.jokeReceivedCallback = jokeReceivedCallback;
@@ -41,8 +41,7 @@ public class JokesWebApiAsyncTask extends AsyncTask<Void, Void, String> {
     private MyApi buildWebApi() {
         GoogleClientRequestInitializer initializer = new GoogleClientRequestInitializer() {
             @Override
-            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest)
-                    throws IOException {
+            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) {
                 abstractGoogleClientRequest.setDisableGZipContent(true);
             }
         };
@@ -51,7 +50,6 @@ public class JokesWebApiAsyncTask extends AsyncTask<Void, Void, String> {
                                                   new AndroidJsonFactory(), null)
                         .setRootUrl(BuildConfig.WEB_API_URL)
                         .setGoogleClientRequestInitializer(initializer);
-        MyApi api = builder.build();
-        return api;
+        return builder.build();
     }
 }

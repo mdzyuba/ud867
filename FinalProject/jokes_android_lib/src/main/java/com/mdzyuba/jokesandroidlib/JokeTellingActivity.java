@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 public class JokeTellingActivity extends AppCompatActivity {
 
-    public static final String JOKE = "joke";
-
-    private TextView tvJoke;
+    private static final String JOKE = "joke";
 
     public static void startActivity(Context context, String joke) {
         Intent intent = new Intent(context, JokeTellingActivity.class);
@@ -32,7 +30,7 @@ public class JokeTellingActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        tvJoke = findViewById(R.id.tvJokeText);
+        TextView tvJoke = findViewById(R.id.tvJokeText);
         String joke = getIntent().getStringExtra(JOKE);
         if (joke != null) {
             tvJoke.setText(joke);

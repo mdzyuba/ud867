@@ -3,7 +3,7 @@
     package="com.mdzyuba.jokesandroidlib">
 
     <application>
-        <activity android:name=".JokeTellingActivity"></activity>
+        <activity android:name=".JokeTellingActivity" />
     </application>
 
 </manifest>

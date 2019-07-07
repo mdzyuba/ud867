@@ -30,12 +30,28 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        // This is a build type to be used while running connected tests
-        // with a local GCE app engine dev server.
-        localGCE {
+        debug {
             minifyEnabled false
-            initWith debug
+        }
+    }
 
+    flavorDimensions "version", "appEng"
+
+    productFlavors {
+        free {
+            dimension "version"
+            applicationIdSuffix ".free"
+            versionNameSuffix "-free"
+        }
+        paid {
+            dimension "version"
+            applicationIdSuffix ".paid"
+            versionNameSuffix "-paid"
+        }
+        // This build flavor to be used while running connected tests
+        // with a local GCE app engine dev server.
+        localAppEng {
+            dimension "appEng"
             // Note: This option can be used if the host security settings allow
             // access to the local app engine:
             // def host=InetAddress.localHost.canonicalHostName
@@ -49,22 +65,9 @@ android {
             def host='10.0.2.2'
             def local_app_engine_url="http://${host}:8080/_ah/api/"
             buildConfigField('String', 'WEB_API_URL', "\"$local_app_engine_url\"")
-            matchingFallbacks = ['debug']
         }
-    }
-
-    flavorDimensions "version"
-
-    productFlavors {
-        free {
-            dimension "version"
-            applicationIdSuffix ".free"
-            versionNameSuffix "-free"
-        }
-        paid {
-            dimension "version"
-            applicationIdSuffix ".paid"
-            versionNameSuffix "-paid"
+        remoteAppEng {
+            dimension "appEng"
         }
     }
 
@@ -84,8 +87,6 @@ android {
             includeAndroidResources = true
         }
     }
-
-    testBuildType "localGCE"
 }
 
 dependencies {

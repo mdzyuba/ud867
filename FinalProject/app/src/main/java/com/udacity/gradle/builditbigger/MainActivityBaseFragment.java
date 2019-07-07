@@ -6,19 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.mdzyuba.jokesandroidlib.JokeTellingActivity;
 import com.mdzyuba.jokeslib.Jokes;
 import com.udacity.gradle.builditbigger.webapi.JokesWebApiAsyncTask;
 import com.udacity.gradle.builditbigger.webapi.OnJokeReceived;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-public abstract class MainActivityBaseFragment extends Fragment {
+abstract class MainActivityBaseFragment extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -36,7 +36,7 @@ public abstract class MainActivityBaseFragment extends Fragment {
         btnJokeFromJavaLib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String joke = new Jokes().tell();
+                String joke = new Jokes().tell(0);
                 showJokeTellingActivity(joke);
             }
         });
@@ -47,7 +47,7 @@ public abstract class MainActivityBaseFragment extends Fragment {
         btnJokeFromAndroidLib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String joke = new Jokes().tell();
+                String joke = new Jokes().tell(1);
                 showJokeTellingActivity(joke);
             }
         });
@@ -77,7 +77,7 @@ public abstract class MainActivityBaseFragment extends Fragment {
      *
      * @param joke a joke to be displayed.
      */
-    protected void showJokeTellingActivity(String joke) {
+    void showJokeTellingActivity(String joke) {
         JokeTellingActivity.startActivity(getActivity(), joke);
     }
 

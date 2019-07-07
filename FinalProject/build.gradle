@@ -33,8 +33,8 @@ task clean(type: Delete) {
 task allLocalConnectedTests {
     description = "Run local GCE connected Android tests"
     group = "verification"
-    dependsOn = [":app:connectedPaidLocalGCEAndroidTest",
-                 ":app:connectedFreeLocalGCEAndroidTest"]
+    dependsOn = [":app:connectedFreeLocalAppEngDebugAndroidTest",
+                 ":app:connectedPaidLocalAppEngDebugAndroidTest"]
 }
 
 task masterTest {

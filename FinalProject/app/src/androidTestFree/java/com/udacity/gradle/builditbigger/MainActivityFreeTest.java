@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.containsString;
 @LargeTest
 public class MainActivityFreeTest {
 
-    public static final int WAIT_FOR_AD_MS = 3000;
+    private static final int WAIT_FOR_AD_MS = 3000;
 
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
@@ -40,28 +40,28 @@ public class MainActivityFreeTest {
     }
 
     @Test
-    public void testClickOnTellJokeFromJavaLibButton_showsJoke() throws Exception {
+    public void testClickOnTellJokeFromJavaLibButton_showsJoke() {
         onView(withId(R.id.btnTellJoke_javaLib)).perform(click());
         closeAdIfDisplayed();
         getInterstitialAdCloseButton().check(doesNotExist());
-        onView(withId(R.id.tvJokeText)).check(matches(withText(containsString("cake"))));
+        onView(withId(R.id.tvJokeText)).check(matches(withText(containsString("Dad"))));
     }
 
     @Test
-    public void testClickOnTellJokeFromAndroidLibButton_showsJoke() throws Exception {
+    public void testClickOnTellJokeFromAndroidLibButton_showsJoke() {
         onView(withId(R.id.btnTellJoke_androidLib)).perform(click());
         closeAdIfDisplayed();
         onView(withId(R.id.tvJokeText)).check(matches(withText(containsString("cake"))));
     }
 
     @Test
-    public void testClickOnTellJokeFromWebLibButton_showsJoke() throws Exception {
+    public void testClickOnTellJokeFromWebLibButton_showsJoke() {
         onView(withId(R.id.btnTellJoke_webApi)).perform(click());
         closeAdIfDisplayed();
         onView(withId(R.id.tvJokeText)).check(matches(withText(containsString("Teacher"))));
     }
 
-    protected void closeAdIfDisplayed() throws Exception {
+    private void closeAdIfDisplayed() {
         try {
             // If the ad is displayed, press the back button.
             ViewInteraction imageButton = getInterstitialAdCloseButton();
